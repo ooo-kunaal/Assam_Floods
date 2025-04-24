@@ -205,9 +205,9 @@ gam_waterfall <- function(year, data_train = df_clean) {
   ggplot(df_plot, aes(y = Feature_Factor)) +
     geom_rect(data = df_plot %>% filter(Type != "Final"), aes(xmin = Start_Response, xmax = End_Response, ymin = ymin, ymax = ymax, fill = Type), color = "black") +
     geom_segment(data = df_plot %>% filter(Type != "Final") %>% mutate(yend_next = lead(ymin)) %>% filter(!is.na(yend_next)), aes(x = End_Response, xend = End_Response, y = ymax, yend = yend_next), color = "gray50", linetype = "dashed" ) +
-    geom_text(aes(x = End_Response, label = Feature_Label), size = 3, hjust = 0, nudge_x = 0.01 * (max(df_plot$End_Response) - min(df_plot$Start_Response)) ) +
+    geom_text(aes(x = End_Response, label = Feature_Label), size = 4, hjust = 0, nudge_x = 0.01 * (max(df_plot$End_Response) - min(df_plot$Start_Response)) ) +
     geom_rect(data = df_plot %>% filter(Feature == "Prediction"), aes(xmin = Start_Response - 10, xmax = End_Response + 10, ymin = ymin, ymax = ymax), fill = "black", alpha = 0.3 ) +
-    geom_text(data = df_plot %>% filter(Feature == "Prediction"), aes(x = End_Response, label = Feature_Label), color = "black", fontface = "bold", size = 3.5, hjust = 0 ) +
+    geom_text(data = df_plot %>% filter(Feature == "Prediction"), aes(x = End_Response, label = Feature_Label), color = "black", fontface = "bold", size = 4, hjust = 0 ) +
     geom_vline(xintercept = pred_response, linetype = "dashed", color = "red") +
     scale_fill_manual(values = c("Increase" = "skyblue", "Decrease" = "salmon", "Base" = "gray")) +
     labs(title = paste("GAM Waterfall Plot – Year", year), subtitle = paste("Prediction =", round(pred_response), "| Actual =", actual, "| RMSE =", round(rmse(actual, pred_response))), x = NULL, y = NULL ) +
@@ -216,6 +216,5 @@ gam_waterfall <- function(year, data_train = df_clean) {
     scale_x_continuous(expand = expansion(mult = c(0.05, 0.15)))
 }
 
-gam_waterfall(2024)
 gam_waterfall(2020)
-
+gam_waterfall(2024)
